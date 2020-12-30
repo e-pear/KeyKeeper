@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Model
 {
+    /// <summary>
+    /// The RoomKey POCO class.
+    /// </summary>
     public class RoomKey
     {
+        // Base properties:
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [MaxLength(4), MinLength(4)]
@@ -17,21 +21,31 @@ namespace KeyKeeper.Model
         public string RoomKey_Id { get; protected set; }
         [Required]
         public string RoomName { get; protected set; }
-
+        // Foregin key:
         public string AssignedEmployee_Id { get; protected set; }
-
+        // Navigation properties:
         [ForeignKey(name: "AssignedEmployee_Id")]
-        public Employee AssignedEmployee { get; set; }
+        public Employee AssignedEmployee { get; protected set; }
 
+        // Constructors:
         private RoomKey() { }
         public RoomKey(string keyCode, string roomName)
         {
             this.RoomKey_Id = keyCode;
             this.RoomName = roomName;
         }
-        public void UpdateRecord(RoomKey updatedRoomKey)
+        // Base Mathods:
+        public void Update(RoomKey updatedRoomKey)
         {
             this.RoomName = updatedRoomKey.RoomName;
+        }
+        /// <summary>
+        /// Changes or resets an employee assigned to room key. 
+        /// </summary>
+        /// <param name="newEmployee">Employee type object, or null reference in case of reset the assignation.</param>
+        public void ChangeAssignedEmployee(Employee newEmployee)
+        {
+            this.AssignedEmployee_Id = newEmployee != null ? newEmployee.Employee_Id : null;
         }
         public override string ToString()
         {

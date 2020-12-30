@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Model
 {
+    /// <summary>
+    /// The Employee POCO class.
+    /// </summary>
     public class Employee
     {
+        // Base properties:
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [MaxLength(4), MinLength(4)]
@@ -23,9 +27,11 @@ namespace KeyKeeper.Model
         public string Position { get; protected set; }
         [Required]
         public string Department { get; protected set; }
-
+        
+        // Navigation properties:
         public ICollection<RoomKey> RecievedRoomKeys { get; protected set; } = new List<RoomKey>();
 
+        // Constructors:
         private Employee() { }
         public Employee (string employeeCode, string name, string surname, string position, string department)
         {
@@ -35,7 +41,8 @@ namespace KeyKeeper.Model
             this.Position = position;
             this.Department = department;
         }
-        public void UpdateEmployee(Employee updatedEmployee)
+        // Base Methods:
+        public void Update(Employee updatedEmployee)
         {
             this.Name = updatedEmployee.Name;
             this.Surname = updatedEmployee.Surname;
