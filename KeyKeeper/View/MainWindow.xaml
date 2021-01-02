@@ -1,0 +1,43 @@
+﻿<Window x:Class="KeyKeeper.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KeyKeeper.View"
+        mc:Ignorable="d"
+        Title="Key Keeper" 
+        Height="480" Width="640"
+        MinHeight="480" MinWidth="640"
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" SpreadMethod="Reflect">
+                <GradientStop Color="Black" Offset="1"/>
+                <GradientStop Color="White"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="340"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="540*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Foreground="DarkRed" Text="MENU" FontSize="24"/>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Zarządzaj Kluczami" Foreground="DarkRed" ToolTip="Wydaj/Odbierz klucz od pracownika."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Raport" Foreground="DarkRed" ToolTip="Wyświetl raport dot. kluczy."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Baza Osób" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych pracowników."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Baza Kluczy" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych kluczy."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Konfiguracja Połączenia" Foreground="DarkRed" ToolTip="Konfiguruj połączenia z bazą danych."/>
+        </StackPanel>
+        <TextBlock Grid.Row="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Margin="10" Text="KeyKeeper [build info here]" Foreground="LightGray" FontSize="12" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer }" Margin="10" Text="KEY KEEPER" Foreground="LightGray" FontSize="48" HorizontalAlignment="Right"/>
+        <TabControl Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Background="Transparent" BorderBrush="Transparent"/>
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Background="Transparent" Foreground="White"/>
+    </Grid>
+</Window>
