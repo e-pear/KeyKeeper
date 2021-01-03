@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="KeyKeeper.Tabs.EmployeeBase.EmployeeBaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KeyKeeper.Tabs.EmployeeBase"
+             mc:Ignorable="d" 
+             d:DesignHeight="525" d:DesignWidth="700">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320*"/>
+            <ColumnDefinition Width="220"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <SolidColorBrush Color="White"/>
+        </Grid.Background>
+        <DataGrid Style="{StaticResource AppStyle_Datagrid}" Margin="10">
+            <!-- Here insert custom columns on next stage-->
+        </DataGrid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="25*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Margin="5" Style="{StaticResource AppStyle_GroupBox}" Grid.Column="1" Header="Pracownik: ">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="33*"/>
+                        <ColumnDefinition Width="33*"/>
+                        <ColumnDefinition Width="33*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+                    <Label  Grid.Row="1" Grid.ColumnSpan="3"
+                            Style="{StaticResource AppStyle_Label}" Content="Numer Identyfikacyjny: "/>
+                    <Label  Grid.Row="3" Grid.ColumnSpan="3"
+                            Style="{StaticResource AppStyle_Label}" Content="Imię: "/>
+                    <Label  Grid.Row="5" Grid.ColumnSpan="3"
+                            Style="{StaticResource AppStyle_Label}" Content="Nazwisko: "/>
+                    <Label  Grid.Row="7" Grid.ColumnSpan="3"
+                            Style="{StaticResource AppStyle_Label}" Content="Stanowisko: "/>
+                    <Label  Grid.Row="9" Grid.ColumnSpan="3"
+                            Style="{StaticResource AppStyle_Label}" Content="Dział: "/>
+                    <TextBox Grid.Row="2" Margin="5,0,5,0"
+                             Style="{StaticResource AppStyle_TextBox}"/>
+                    <TextBox Grid.Row="4" Grid.ColumnSpan="3" Margin="5,0,5,0"
+                             Style="{StaticResource AppStyle_TextBox}"/>
+                    <TextBox Grid.Row="6" Grid.ColumnSpan="3" Margin="5,0,5,0"
+                             Style="{StaticResource AppStyle_TextBox}"/>
+                    <TextBox Grid.Row="8" Grid.ColumnSpan="3" Margin="5,0,5,0"
+                             Style="{StaticResource AppStyle_TextBox}"/>
+                    <TextBox Grid.Row="10" Grid.ColumnSpan="3" Margin="5,0,5,0"
+                             Style="{StaticResource AppStyle_TextBox}"/>
+                    <Button  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"
+                             Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Generuj ID" Margin="10,0,10,0"/>
+                </Grid>
+            </GroupBox>
+            <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5" VerticalAlignment="Center">
+                <Button Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Zapisz jako nowy rekord"/>
+                <Button Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Nadpisz rekord"/>
+                <Button Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Usuń rekord"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
