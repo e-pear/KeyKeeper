@@ -8,21 +8,24 @@
         <!-- #region BUTTON INNER TEXT CONTAINER STYLES-->
         <!-- #region *) Main menu button text container style:-->
         <Style x:Key="MainMenuButtonStyle_TextBlockContainer" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+            <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Calibri"/>
-            <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         <!--#endregion-->
+        <!--#endregion-->
         <!-- #region BUTTON CONTROL TEMPLATES FOR STYLES-->
         <ControlTemplate x:Key="ButtonTemplate_ActiveState" TargetType="Button">
             <Border BorderBrush="{TemplateBinding Foreground}"
                     Background="White"
-                    BorderThickness="4" 
+                    BorderThickness="2" 
                     CornerRadius="6">
                 <TextBlock Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}"
                            Text="{TemplateBinding Content}"
+                           FontSize="{TemplateBinding FontSize}"
                            Foreground="{TemplateBinding Foreground}"
                            Background="White"/>
             </Border>
@@ -34,6 +37,7 @@
                     CornerRadius="6">
                 <TextBlock Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}"
                            Text="{TemplateBinding Content}"
+                           FontSize="{TemplateBinding FontSize}"
                            Foreground="White"
                            Background="{TemplateBinding Foreground}"/>
             </Border>
@@ -45,6 +49,7 @@
                     CornerRadius="6">
                 <TextBlock Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}"
                            Text="{TemplateBinding Content}"
+                           FontSize="{TemplateBinding FontSize}"
                            Foreground="Gray"
                            Background="White"/>
             </Border>
@@ -53,6 +58,7 @@
         <!-- #region *) Main menu button style:-->
         <!-- Every button which is embracing this style must define foreground color and button's content text.-->
         <Style x:Key="AppStyle_MainMenuButton" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Height" Value="44"/>
             <Setter Property="Effect">
@@ -81,6 +87,177 @@
                     <MultiTrigger.Setters>
                         <Setter Property="Template" Value="{StaticResource ButtonTemplate_MouseOverState}"/>
                     </MultiTrigger.Setters>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--#endregion-->
+        <!--#region  *) Side menu button style:-->
+        <Style x:Key="AppStyle_SideMenuButton" TargetType="Button" BasedOn="{StaticResource AppStyle_MainMenuButton}">
+            <Setter Property="FontSize"  Value="12"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <!--#endregion-->
+        <!--#endregion-->
+        <!--#region GROUP BOXES STYLES-->
+        <Style x:Key="AppStyle_GroupBox" TargetType="GroupBox">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextBlock.Foreground" Value="DarkRed"/>
+            <Setter Property="BorderBrush" Value="DarkRed"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+        <!--#endregion-->
+        <!--#region LABEL STYLES-->
+        <Style x:Key="AppStyle_Label" TargetType="Label">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="TextBlock.Foreground" Value="DarkRed"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <!--#endregion-->
+        <!--#region TEXT BLOCK STYLES-->
+        <Style x:Key="AppStyle_TextBlock" TargetType="TextBlock" BasedOn="{StaticResource MainMenuButtonStyle_TextBlockContainer}">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <!--#endregion-->
+        <!--#region TEXTBOX STYLES-->
+        <Style x:Key="AppStyle_TextBox" TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="DarkRed"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontStyle="Italic" Foreground="Red" Background="Wheat" Text="!" TextAlignment="Center" Grid.Column="1" Width="120"/>
+                            <AdornedElementPlaceholder x:Name="placeholder" Grid.Row="1" Grid.ColumnSpan="2"/>
+                            <TextBlock FontStyle="Italic" Foreground="Red" Background="Wheat" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" TextWrapping="WrapWithOverflow"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion-->
+        <!--#region DATAGRID STYLES-->
+        <!--#region COLUMNHEADER STYLES FOR DATAGRID-->
+        <Style x:Key="DataGridStyle_ColumnHeader" TargetType="DataGridColumnHeader">
+            <Setter Property="SeparatorBrush" Value="DarkRed"/>
+            <Setter Property="Background" Value="DarkRed"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="33"/>
+        </Style>
+        <!--#endregion-->
+        <!--#region CELL STYLES FOR DATAGRID-->
+        <Style x:Key="DataGridStyle_Cell" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--#endregion-->
+        <!--#region ROW STYLES FOR DATAGRID-->
+        <Style x:Key="DaragridStyle_Row" TargetType="DataGridRow">
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsSelected" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Background" Value="Gray"/>
+                    </MultiTrigger.Setters>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--#endregion-->
+        <!--#region *) DataGrid Base Style:-->
+        <Style x:Key="AppStyle_Datagrid" TargetType="DataGrid">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="MaxHeight" Value="500"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="DarkRed"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridStyle_ColumnHeader}"/>
+            <Setter Property="RowStyle" Value="{StaticResource DaragridStyle_Row}"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="CellStyle" Value="{StaticResource DataGridStyle_Cell}"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="AlternatingRowBackground" Value="LightGray"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Border BorderBrush="DarkRed"  BorderThickness="2" Background="DarkRed"  Padding="2,2,2,2" CornerRadius="6"  SnapsToDevicePixels="False">
+                            <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
+                                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                                            <Grid Grid.Column="1" Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Margin="0,0,0,2"/>
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
