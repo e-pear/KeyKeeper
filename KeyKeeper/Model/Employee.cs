@@ -11,7 +11,7 @@ namespace KeyKeeper.Model
     /// <summary>
     /// The Employee POCO class.
     /// </summary>
-    public class Employee
+    public class Employee : IRecord
     {
         // Base properties:
         [Key]
@@ -52,6 +52,15 @@ namespace KeyKeeper.Model
         public override string ToString()
         {
             return $"\"{Employee_Id}\";\"{Name}\";\"{Surname}\";\"{Position}\";\"{Department}\"";
+        }
+        // IRecord Implementation:
+        public int GetIdNumber()
+        {
+            return Convert.ToInt32(Employee_Id);
+        }
+        public string GetIdCode()
+        {
+            return Employee_Id;
         }
     }
 }

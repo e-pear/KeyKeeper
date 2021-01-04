@@ -25,7 +25,7 @@ namespace KeyKeeper.Model.DataModel
             IEnumerable<RoomKey> results;
             using (CompanyDbContext companyDb = new CompanyDbContext())
             {
-                results = await companyDb.RoomKeys.ToListAsync();
+                results = await companyDb.RoomKeys.ToListAsync().ConfigureAwait(false);
             }
             return results;
         }
@@ -40,7 +40,7 @@ namespace KeyKeeper.Model.DataModel
             IEnumerable<RoomKey> results;
             using(CompanyDbContext companyDb = new CompanyDbContext())
             {
-                results = await companyDb.RoomKeys.Where(rK => rK.AssignedEmployee_Id == employee.Employee_Id).ToListAsync();
+                results = await companyDb.RoomKeys.Where(rK => rK.AssignedEmployee_Id == employee.Employee_Id).ToListAsync().ConfigureAwait(false);
             }
             return results;
         }
@@ -53,7 +53,7 @@ namespace KeyKeeper.Model.DataModel
             IEnumerable<RoomKey> results;
             using (CompanyDbContext companyDb = new CompanyDbContext())
             {
-                results = await companyDb.RoomKeys.Where(rK => rK.AssignedEmployee_Id == null).ToListAsync();
+                results = await companyDb.RoomKeys.Where(rK => rK.AssignedEmployee_Id == null).ToListAsync().ConfigureAwait(false);
             }
             return results;
         }
@@ -67,7 +67,7 @@ namespace KeyKeeper.Model.DataModel
             IEnumerable<Employee> results;
             using (CompanyDbContext companyDb = new CompanyDbContext())
             {
-                results = await companyDb.Employees.Where(e => e.RecievedRoomKeys.Select(k => k.RoomKey_Id).Contains(key.RoomKey_Id)).ToListAsync();
+                results = await companyDb.Employees.Where(e => e.RecievedRoomKeys.Select(k => k.RoomKey_Id).Contains(key.RoomKey_Id)).ToListAsync().ConfigureAwait(false);
             }
             return results.FirstOrDefault();
         }
@@ -82,7 +82,7 @@ namespace KeyKeeper.Model.DataModel
             IEnumerable<Employee> results;
             using (CompanyDbContext companyDb = new CompanyDbContext())
             {
-                results = await companyDb.Employees.Where(e => e.Name == employeeName && e.Surname == employeeSurname).ToListAsync();
+                results = await companyDb.Employees.Where(e => e.Name == employeeName && e.Surname == employeeSurname).ToListAsync().ConfigureAwait(false);
             }
             return results;
         }
@@ -96,7 +96,7 @@ namespace KeyKeeper.Model.DataModel
             IEnumerable<RoomKey> results;
             using (CompanyDbContext companyDb = new CompanyDbContext())
             {
-                results = await companyDb.RoomKeys.Where(rK => rK.AssignedEmployee_Id != null).ToListAsync();
+                results = await companyDb.RoomKeys.Where(rK => rK.AssignedEmployee_Id != null).ToListAsync().ConfigureAwait(false);
             }
             return results;
         }
@@ -110,7 +110,7 @@ namespace KeyKeeper.Model.DataModel
             IEnumerable<RoomKey> results;
             using (CompanyDbContext companyDb = new CompanyDbContext())
             {
-                results = await companyDb.RoomKeys.Where(rK => rK.RoomKey_Id == roomKeyId).ToListAsync();
+                results = await companyDb.RoomKeys.Where(rK => rK.RoomKey_Id == roomKeyId).ToListAsync().ConfigureAwait(false);
             }
             return results.FirstOrDefault();
         }

@@ -28,7 +28,7 @@ namespace KeyKeeper.Model.DataModel
             using(var companyDb = new CompanyDbContext())
             {
                 companyDb.Set<T>().Add(record);
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -41,7 +41,7 @@ namespace KeyKeeper.Model.DataModel
             using (var companyDb = new CompanyDbContext())
             {
                 companyDb.Set<T>().AddRange(records);
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace KeyKeeper.Model.DataModel
 
             using (var companyDb = new CompanyDbContext())
             {
-                collection = await companyDb.Set<T>().ToListAsync();
+                collection = await companyDb.Set<T>().ToListAsync().ConfigureAwait(false);
             }
 
             return collection;
@@ -70,7 +70,7 @@ namespace KeyKeeper.Model.DataModel
             {
                 companyDb.Set<T>().Attach(record);
                 companyDb.Set<T>().Remove(record);
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace KeyKeeper.Model.DataModel
             {
                 foreach (T record in records) companyDb.Set<T>().Attach(record);
                 companyDb.Set<T>().RemoveRange(records);
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -97,7 +97,7 @@ namespace KeyKeeper.Model.DataModel
             using (var companyDb = new CompanyDbContext())
             {
                 companyDb.Entry(updatedRecord).State = EntityState.Modified;
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }

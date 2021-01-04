@@ -11,7 +11,7 @@ namespace KeyKeeper.Model
     /// <summary>
     /// The RoomKey POCO class.
     /// </summary>
-    public class RoomKey
+    public class RoomKey : IRecord
     {
         // Base properties:
         [Key]
@@ -50,6 +50,15 @@ namespace KeyKeeper.Model
         public override string ToString()
         {
             return $"\"{RoomKey_Id}\";\"{RoomName}\"";
+        }
+        // IRecord Implementation:
+        public int GetIdNumber()
+        {
+            return Convert.ToInt32(RoomKey_Id);
+        }
+        public string GetIdCode()
+        {
+            return RoomKey_Id;
         }
     }
 }

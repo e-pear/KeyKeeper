@@ -31,7 +31,7 @@ namespace KeyKeeper.Model.DataModel
                     key.ChangeAssignedEmployee(employee);
                     companyDb.Entry(key).State = EntityState.Modified;
                 }
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -47,7 +47,7 @@ namespace KeyKeeper.Model.DataModel
                 key.ChangeAssignedEmployee(employee);
                 companyDb.Entry(key).State = EntityState.Modified;
 
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -64,7 +64,7 @@ namespace KeyKeeper.Model.DataModel
                     key.ChangeAssignedEmployee(null);
                     companyDb.Entry(key).State = EntityState.Modified;
                 }
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -79,7 +79,7 @@ namespace KeyKeeper.Model.DataModel
                 key.ChangeAssignedEmployee(null);
                 companyDb.Entry(key).State = EntityState.Modified;
 
-                await companyDb.SaveChangesAsync();
+                await companyDb.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }
