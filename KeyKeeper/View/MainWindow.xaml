@@ -4,10 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyKeeper.View"
+        xmlns:CareTakerTab="clr-namespace:KeyKeeper.Tabs.CareTaker"
+        xmlns:ReportTab="clr-namespace:KeyKeeper.Tabs.KeyReport"
+        xmlns:EmployeeBaseTab="clr-namespace:KeyKeeper.Tabs.EmployeeBase"
+        xmlns:RoomKeyBaseTab="clr-namespace:KeyKeeper.Tabs.RoomKeyBase"
+        xmlns:Common="clr-namespace:KeyKeeper.ViewModel"
         mc:Ignorable="d"
         Title="Key Keeper" 
-        Height="480" Width="640"
-        MinHeight="480" MinWidth="640"
+        Height="600" Width="800"
+        MinHeight="600" MinWidth="800"
         WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize">
     <Grid>
@@ -19,25 +24,50 @@
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="340"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="450*"/>
+            <RowDefinition Height="75"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="540*"/>
+            <ColumnDefinition Width="700*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Margin="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Foreground="DarkRed" Text="MENU" FontSize="24"/>
-        <StackPanel Orientation="Vertical" Grid.Row="1">
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Zarządzaj Kluczami" Foreground="DarkRed" ToolTip="Wydaj/Odbierz klucz od pracownika."/>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Raport" Foreground="DarkRed" ToolTip="Wyświetl raport dot. kluczy."/>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Baza Osób" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych pracowników."/>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Baza Kluczy" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych kluczy."/>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Content="Konfiguracja Połączenia" Foreground="DarkRed" ToolTip="Konfiguruj połączenia z bazą danych."/>
+        <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Center">
+            <TextBlock Margin="0,0,0,10" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Foreground="DarkRed" Text="MENU" FontSize="24"/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenRoomKeysManagerCommand}" Content="Zarządzaj Kluczami" Foreground="DarkRed" ToolTip="Wydaj/Odbierz klucz od pracownika."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenRoomKeyReportCommand}" Content="Raport" Foreground="DarkRed" ToolTip="Wyświetl raport dot. kluczy."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenEmployeeDataBaseManagerCommand}" Content="Baza Osób" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych pracowników."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenRoomKeyDataBaseManagerCommand}" Content="Baza Kluczy" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych kluczy."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ConfigureConnectionSettings}" Content="Konfiguracja Połączenia" Foreground="DarkRed" ToolTip="Konfiguruj połączenia z bazą danych."/>
         </StackPanel>
         <TextBlock Grid.Row="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Margin="10" Text="KeyKeeper [build info here]" Foreground="LightGray" FontSize="12" VerticalAlignment="Bottom"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer }" Margin="10" Text="KEY KEEPER" Foreground="LightGray" FontSize="48" HorizontalAlignment="Right"/>
-        <TabControl Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Background="Transparent" BorderBrush="Transparent"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer }" Margin="10" VerticalAlignment="Bottom" Text="KEY KEEPER" Foreground="LightGray" FontSize="48" HorizontalAlignment="Right"/>
+        <TabControl Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Background="Transparent" BorderBrush="Transparent"
+                    ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}">
+            <!--BINDING MAGIC ! :)-->
+            <TabControl.Resources>
+                <DataTemplate DataType="{x:Type CareTakerTab:CareTakerViewModel}">
+                    <CareTakerTab:CareTakerView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ReportTab:ReportViewModel}">
+                    <ReportTab:ReportView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type EmployeeBaseTab:EmployeeBaseViewModel}">
+                    <EmployeeBaseTab:EmployeeBaseView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type RoomKeyBaseTab:RoomKeyBaseViewModel}">
+                    <RoomKeyBaseTab:RoomKeyBaseView/>
+                </DataTemplate>
+            </TabControl.Resources>
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type Common:ITab}">
+                    <StackPanel Orientation="Horizontal" Height="22">
+                        <TextBlock Style="{StaticResource AppStyle_TextBlock}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TabTitle}"/>
+                        <Button Command="{Binding CloseCommand}" ToolTip="Zamknij Tab."/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
         <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Background="Transparent" Foreground="White"/>
     </Grid>
 </Window>

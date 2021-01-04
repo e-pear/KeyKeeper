@@ -22,6 +22,7 @@ namespace KeyKeeper.View
     {
         public MainWindow()
         {
+            this.DataContext = new ViewModel.ViewModel();
             InitializeComponent();
         }
     }
