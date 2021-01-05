@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KeyKeeper.Tabs.EmployeeBase"
+             xmlns:rules="clr-namespace:KeyKeeper.Rules"
              mc:Ignorable="d" 
              d:DesignHeight="525" d:DesignWidth="700">
     <Grid>
@@ -14,8 +15,44 @@
         <Grid.Background>
             <SolidColorBrush Color="White"/>
         </Grid.Background>
-        <DataGrid Style="{StaticResource AppStyle_Datagrid}" Margin="10">
-            <!-- Here insert custom columns on next stage-->
+        <DataGrid ItemsSource="{Binding Records}" SelectedItem="{Binding SelectedRecord}" Style="{StaticResource AppStyle_Datagrid}" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Employee_Id, Mode=OneWay}" Width="70">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="ID Pracownika" Width="60" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Name, Mode=OneWay}" Width="100*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Imię" Width="90" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Surname, Mode=OneWay}" Width="100*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Nazwisko" Width="90" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Position, Mode=OneWay}" Width="100*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Stanowisko" Width="90" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=Department, Mode=OneWay}" Width="100*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Dział" Width="90" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -53,24 +90,33 @@
                             Style="{StaticResource AppStyle_Label}" Content="Stanowisko: "/>
                     <Label  Grid.Row="9" Grid.ColumnSpan="3"
                             Style="{StaticResource AppStyle_Label}" Content="Dział: "/>
-                    <TextBox Grid.Row="2" Margin="5,0,5,0"
-                             Style="{StaticResource AppStyle_TextBox}"/>
+                    <TextBox Grid.Row="2" Margin="5,0,5,0" Style="{StaticResource AppStyle_TextBox}">
+                        <Binding Path="PresentedRecord.Id" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:FourDigitIdValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                     <TextBox Grid.Row="4" Grid.ColumnSpan="3" Margin="5,0,5,0"
-                             Style="{StaticResource AppStyle_TextBox}"/>
+                             Style="{StaticResource AppStyle_TextBox}"
+                             Text="{Binding PresentedRecord.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox Grid.Row="6" Grid.ColumnSpan="3" Margin="5,0,5,0"
-                             Style="{StaticResource AppStyle_TextBox}"/>
+                             Style="{StaticResource AppStyle_TextBox}"
+                             Text="{Binding PresentedRecord.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox Grid.Row="8" Grid.ColumnSpan="3" Margin="5,0,5,0"
-                             Style="{StaticResource AppStyle_TextBox}"/>
+                             Style="{StaticResource AppStyle_TextBox}"
+                             Text="{Binding PresentedRecord.Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox Grid.Row="10" Grid.ColumnSpan="3" Margin="5,0,5,0"
-                             Style="{StaticResource AppStyle_TextBox}"/>
+                             Style="{StaticResource AppStyle_TextBox}"
+                             Text="{Binding PresentedRecord.Department, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Button  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"
-                             Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Generuj ID" Margin="10,0,10,0"/>
+                             Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding GenerateAvailableIdCommand}" Foreground="DarkRed" Content="GENERUJ ID" Margin="10,0,10,0" ToolTip="Generuj pierwszy wolny cztero-cyfrowy numer identyfikacyjny."/>
                 </Grid>
             </GroupBox>
             <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5" VerticalAlignment="Center">
-                <Button Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Zapisz jako nowy rekord"/>
-                <Button Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Nadpisz rekord"/>
-                <Button Style="{StaticResource AppStyle_SideMenuButton}" Foreground="DarkRed" Content="Usuń rekord"/>
+                <Button Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding SaveRecordCommand}" Foreground="DarkRed" Content="ZAPISZ JAKO NOWY REKORD" ToolTip="Zapisz dane pracownika do bazy danych jako nowy rekord."/>
+                <Button Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding UpdateRecordCommand}" Foreground="DarkRed" Content="UAKTUALNIJ REKORD" ToolTip="Nadpisz rekord aktualnymi danymi."/>
+                <Button Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding DeleteRecordCommand}" Foreground="DarkRed" Content="USUŃ REKORD" ToolTip="Usuń zaznaczony rekord."/>
             </StackPanel>
         </Grid>
     </Grid>

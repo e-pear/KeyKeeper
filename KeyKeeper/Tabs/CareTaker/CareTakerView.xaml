@@ -39,27 +39,44 @@
                 <Label Style="{StaticResource AppStyle_Label}" Content="Departament:" Grid.Row="8" FontSize="14"/>
                 <Label Style="{StaticResource AppStyle_Label}" Content="Posiadane Klucze:" Grid.Column="1" Margin="5,0,0,0" FontSize="14"/>
                 <!--Textblock:Text bind here-->
-                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="1" Margin="5,0,0,0" Text="TEST"/>
-                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="3" Margin="5,0,0,0" Text="TEST"/>
-                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="5" Margin="5,0,0,0" Text="TEST"/>
-                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="7" Margin="5,0,0,0" Text="TEST"/>
-                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="9" Margin="5,0,0,0" Text="TEST"/>
-                <DataGrid Style="{StaticResource AppStyle_Datagrid}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Margin="10">
-                    <!--custom columns here-->
+                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="1" Margin="5,0,0,0" Text="{Binding RegisteredEmployee.Id, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="3" Margin="5,0,0,0" Text="{Binding RegisteredEmployee.Name, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="5" Margin="5,0,0,0" Text="{Binding RegisteredEmployee.Surname, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="7" Margin="5,0,0,0" Text="{Binding RegisteredEmployee.Position, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource AppStyle_TextBlock}" Grid.Row="9" Margin="5,0,0,0" Text="{Binding RegisteredEmployee.Department, Mode=OneWay}"/>
+                <DataGrid ItemsSource="{Binding RegisteredEmployee.HeldKeys}" Style="{StaticResource AppStyle_Datagrid}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Margin="10" FontSize="14">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=RoomKey_Id, Mode=OneWay}" Width="100">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Nr Klucza" Width="90" TextWrapping="Wrap" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Path=RoomName, Mode=OneWay}" Width="100*">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Pomieszczenie" TextWrapping="Wrap" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </GroupBox>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="13*"/>
+                <ColumnDefinition Width="7*"/>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Height="77" Foreground="DarkRed"  Content="ZAREJESTRUJ&#10;PRACOWNIKA" Grid.Column="1" Margin="20,10,20,10" FontSize="18"/>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Height="77" Foreground="DarkBlue"  Content="ZDAJ&#10;KLUCZ" Grid.Row="1" Grid.Column="2" Margin="20,10,20,10" FontSize="18"/>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Height="77" Foreground="DarkGreen"  Content="WYDAJ&#10;KLUCZ" Grid.Row="2" Grid.Column="3" Margin="20,10,20,10" FontSize="18"/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding RegisterEmployeeCommand}" Height="77" Foreground="DarkRed"  Content="ZAREJESTRUJ&#10;PRACOWNIKA" Grid.Column="1" Margin="20,10,20,10" FontSize="18" ToolTip="Zarejestruj pracownika na dyżurce w celu wydania/zdania kluczy."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ResetRegistrationCommand}" Height="77" Foreground="Black"  Content="RESET" Grid.Row="1" Grid.Column="2" Margin="20,10,20,10" FontSize="18" ToolTip="Wyrejestruj/Resetuj pracownika."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding TakeTheKeyBackCommand}" Height="77" Foreground="DarkBlue"  Content="ZDAJ&#10;KLUCZ" Grid.Row="1" Grid.Column="3" Margin="20,10,20,10" FontSize="18" ToolTip="Odbierz klucz od zarejestrowanego pracownika."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding HandoverTheKeyCommand}" Height="77" Foreground="DarkGreen"  Content="WYDAJ&#10;KLUCZ" Grid.Row="2" Grid.Column="4" Margin="20,10,20,10" FontSize="18" ToolTip="Wydaj klucz zarejestrowanemu pracownikowi."/>
         </Grid>
     </Grid>
 </UserControl>

@@ -4,8 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KeyKeeper.Tabs.KeyReport"
+             xmlns:converters="clr-namespace:KeyKeeper.Tabs.KeyReport.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="525" d:DesignWidth="700">
+    <UserControl.Resources>
+        <converters:AssignedEmployeeNullToInformationConverter x:Key="AssignedEmployeeNullToInformationConverter"/>
+        <Style x:Key="Local_GridVisibilityStyle_DefaultHidden" TargetType="Grid">
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Detail.IsKeyStoredAtTheGateHouse}" Value="false">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="Local_GridVisibilityStyle_DefaultVisible" TargetType="Grid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Detail.IsKeyStoredAtTheGateHouse}" Value="false">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="Local_TextBlockDefaultDetailText" TargetType="TextBlock" BasedOn="{StaticResource AppStyle_TextBlock}">
+            <Setter Property="Text" Value="Szczegóły niedostępne dla klucza zdeponowanego na portierni."/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=SelectedKey}" Value="{x:Null}">
+                    <Setter Property="Text" Value="Proszę wybrać klucz z tabeli by wyświetlić szczegóły."/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320*"/>
@@ -14,14 +41,87 @@
         <Grid.Background>
             <SolidColorBrush Color="White"/>
         </Grid.Background>
-        <DataGrid Style="{StaticResource AppStyle_Datagrid}" Margin="10">
-            <!-- Here insert custom columns on next stage-->
+        <DataGrid ItemsSource="{Binding Keys}" SelectedItem="{Binding SelectedKey}" Style="{StaticResource AppStyle_Datagrid}" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=RoomKey_Id, Mode=OneWay}" Width="100">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Numer Identyfikacyjny" Width="90" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=RoomName, Mode=OneWay}" Width="180">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Pomieszczenie" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Converter={StaticResource AssignedEmployeeNullToInformationConverter}}" Width="80*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Status"  Width="90" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <GroupBox Margin="5" Style="{StaticResource AppStyle_GroupBox}" Grid.Column="1" Header="Raporty: ">
+            <GroupBox Margin="5" Style="{StaticResource AppStyle_GroupBox}" Header="Szczegóły: ">
+                <Grid>
+                    <Grid Style="{StaticResource Local_GridVisibilityStyle_DefaultVisible}">
+                        <TextBlock Style="{StaticResource Local_TextBlockDefaultDetailText}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Grid.ColumnSpan="2"/>
+                    </Grid>
+                    <Grid Style="{StaticResource Local_GridVisibilityStyle_DefaultHidden}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <Label Style="{StaticResource AppStyle_Label}" Content="Numer Identyfikacyjny: "/>
+                            <TextBox Margin="5,0,5,0" Style="{StaticResource AppStyle_TextBox}" Width="59" Height="22" IsReadOnly="True" Text="{Binding Detail.Id, Mode=OneWay}"/>
+                        </StackPanel>
+                        <Label  Grid.Row="2" 
+                                Style="{StaticResource AppStyle_Label}" Content="Imię: "/>
+                        <Label  Grid.Row="4" 
+                                Style="{StaticResource AppStyle_Label}" Content="Nazwisko: "/>
+                        <Label  Grid.Row="6" 
+                                Style="{StaticResource AppStyle_Label}" Content="Stanowisko: "/>
+                        <Label  Grid.Row="8" 
+                                Style="{StaticResource AppStyle_Label}" Content="Dział: "/>
+
+                        <TextBox Grid.Row="3" Margin="5,0,5,0" IsReadOnly="True"
+                                 Style="{StaticResource AppStyle_TextBox}" 
+                                 Text="{Binding Detail.Name, Mode=OneWay}"/>
+                        <TextBox Grid.Row="5" Margin="5,0,5,0" IsReadOnly="True"
+                                 Style="{StaticResource AppStyle_TextBox}"
+                                 Text="{Binding Detail.Surname, Mode=OneWay}"/>
+                        <TextBox Grid.Row="7" Margin="5,0,5,0" IsReadOnly="True"
+                                 Style="{StaticResource AppStyle_TextBox}"
+                                 Text="{Binding Detail.Position, Mode=OneWay}"/>
+                        <TextBox Grid.Row="9" Margin="5,0,5,0" IsReadOnly="True"
+                                 Style="{StaticResource AppStyle_TextBox}"
+                                 Text="{Binding Detail.Department, Mode=OneWay}"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Margin="5" Style="{StaticResource AppStyle_GroupBox}" Grid.Column="1" Grid.Row="1" Header="Raporty: ">
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -29,10 +129,10 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Height="77" Foreground="DarkRed"  Content="WSZYSTKIE&#10;KLUCZE" FontSize="18"/>
-                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Height="77" Foreground="DarkBlue"  Content="WYDANE&#10;KLUCZE" Grid.Row="1" FontSize="18"/>
-                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Height="77" Foreground="DarkGreen"  Content="KLUCZE&#10;NA PORTIERNI" Grid.Row="2" FontSize="18"/>
-                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Height="77" Foreground="Black"  Content="ZAMKNIJ &#10;RAPORT" Grid.Row="3" FontSize="18"/>
+                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ShowAllRoomKeysCommand}" Foreground="DarkRed"  Content="WSZYSTKIE KLUCZE" ToolTip="Generuje raport zawierający wszystkie klucze znajdujące się w bazie." Height="30" Margin="10,0,10,0"/>
+                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ShowHandoveredRoomKeysCommand}" Foreground="DarkRed"  Content="WYDANE KLUCZE" Grid.Row="1" ToolTip="Generuje raport zawierający wszystkie dotychczas wydane klucze." Height="30" Margin="10,0,10,0"/>
+                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ShowRemainingRoomKeysCommand}" Foreground="DarkRed"  Content="KLUCZE NA PORTIERNI" Grid.Row="2" ToolTip="Generuje raport zawierający wszystkie klucze znajdujące aktualnie na portierni." Height="30" Margin="10,0,10,0"/>
+                    <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ShowSpecifiedKeyCommand}" Foreground="DarkRed"  Content="ZNAJDŹ KLUCZ" Grid.Row="3" ToolTip="Wyszukuje pojedynczy klucz wg podanego numeru identyfikacyjnego." Height="30" Margin="10,0,10,0"/>
                 </Grid>
             </GroupBox>
         </Grid>
