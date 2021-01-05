@@ -84,7 +84,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\DialogBoxFactory.cs" />
+    <Compile Include="Dialogs\InfoBox.xaml.cs">
+      <DependentUpon>InfoBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RequestDialogBox.xaml.cs">
+      <DependentUpon>RequestDialogBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RequestDialogBoxContext.cs" />
+    <Compile Include="Model\IRecord.cs" />
+    <Compile Include="Rules\FourDigitIdValidationRule.cs" />
     <Compile Include="Settings\ConnectionSetting.cs" />
+    <Page Include="Dialogs\InfoBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RequestDialogBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\CareTaker\CareTakerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\EmployeeBase\EmployeeBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\KeyReport\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\RoomKeyBase\RoomKeyBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,6 +127,33 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tabs\CareTaker\CareTakerView.xaml.cs">
+      <DependentUpon>CareTakerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\CareTaker\CareTakerViewModel.cs" />
+    <Compile Include="Tabs\CareTaker\PresentedRegisteredEmployee.cs" />
+    <Compile Include="Tabs\DataBaseViewModel.cs" />
+    <Compile Include="Tabs\EmployeeBase\EmployeeBaseView.xaml.cs">
+      <DependentUpon>EmployeeBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\EmployeeBase\EmployeeBaseViewModel.cs" />
+    <Compile Include="Tabs\KeyReport\Converters\AssignedEmployeeNullToInformationConverter.cs" />
+    <Compile Include="Tabs\PresentedRecordEmployee.cs" />
+    <Compile Include="Tabs\KeyReport\PresentedDetail.cs" />
+    <Compile Include="Tabs\KeyReport\ReportViewModel.cs" />
+    <Compile Include="Tabs\KeyReport\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\IPresentedRecord.cs" />
+    <Compile Include="Tabs\PresentedRecordRoomKey.cs" />
+    <Compile Include="Tabs\RoomKeyBase\RoomKeyBaseView.xaml.cs">
+      <DependentUpon>RoomKeyBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\RoomKeyBase\RoomKeyBaseViewModel.cs" />
+    <Compile Include="ViewModel\CommandRelay.cs" />
+    <Compile Include="ViewModel\ITab.cs" />
+    <Compile Include="ViewModel\ViewModel.cs" />
+    <Compile Include="ViewModel\Tab.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -135,11 +196,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tabs\EmployeeBase\" />
-    <Folder Include="Tabs\RoomKeyBase\" />
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
