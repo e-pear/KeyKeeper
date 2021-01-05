@@ -98,6 +98,19 @@
             <Setter Property="Margin" Value="5"/>
         </Style>
         <!--#endregion-->
+        <!--#region *) Icon button style:-->
+        <Style x:Key="AppStyle_IconButton" TargetType="Button" BasedOn="{StaticResource AppStyle_MainMenuButton}">
+            <Setter Property="FontSize"  Value="12"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="6" ShadowDepth="3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion-->
         <!--#endregion-->
         <!--#region GROUP BOXES STYLES-->
         <Style x:Key="AppStyle_GroupBox" TargetType="GroupBox">
@@ -120,7 +133,8 @@
         </Style>
         <!--#endregion-->
         <!--#region TEXT BLOCK STYLES-->
-        <Style x:Key="AppStyle_TextBlock" TargetType="TextBlock" BasedOn="{StaticResource MainMenuButtonStyle_TextBlockContainer}">
+        <Style x:Key="AppStyle_TextBlock" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Calibri"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="TextAlignment" Value="Left"/>
@@ -133,32 +147,51 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="FontFamily" Value="Calibri"/>
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="181"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock FontStyle="Italic" Foreground="Red" Background="Wheat" Text="!" TextAlignment="Center" Grid.Column="1" Width="120"/>
-                            <AdornedElementPlaceholder x:Name="placeholder" Grid.Row="1" Grid.ColumnSpan="2"/>
-                            <TextBlock FontStyle="Italic" Foreground="Red" Background="Wheat" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" TextWrapping="WrapWithOverflow"/>
+                            <AdornedElementPlaceholder x:Name="placeholder" Grid.Row="0"/>
+                            <Border Padding="0" BorderThickness="1" BorderBrush="DarkRed"  Grid.Row="1">
+                                <TextBlock FontStyle="Normal"  Foreground="DarkRed"  Background="WhiteSmoke" Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" TextWrapping="WrapWithOverflow"/>
+                            </Border>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="AppStyle_TextBoxDialog" TargetType="TextBox" BasedOn="{StaticResource AppStyle_TextBox}">
+            <Setter Property="BorderBrush" Value="white"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="AcceptsTab" Value="True"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <!--#endregion-->
         <!--#region DATAGRID STYLES-->
         <!--#region COLUMNHEADER STYLES FOR DATAGRID-->
         <Style x:Key="DataGridStyle_ColumnHeader" TargetType="DataGridColumnHeader">
-            <Setter Property="SeparatorBrush" Value="DarkRed"/>
+            <Setter Property="SeparatorBrush" Value="White"/>
+            <Setter Property="SeparatorVisibility" Value="Visible"/>
             <Setter Property="Background" Value="DarkRed"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -168,10 +201,10 @@
         <!--#endregion-->
         <!--#region CELL STYLES FOR DATAGRID-->
         <Style x:Key="DataGridStyle_Cell" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="DimGray"/>
-                    <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -260,6 +293,23 @@
                     <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
                 </MultiTrigger>
             </Style.Triggers>
+        </Style>
+        <!--#endregion-->
+        <!--#endregion-->
+        <!--#region TABCONTROL STYLES-->
+        <!-- *) Base TabControl Style-->
+        <Style x:Key="AppStyle_TabControl" TargetType="TabControl">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Background" Value="LightGray"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
         </Style>
         <!--#endregion-->
         <!--#endregion-->
