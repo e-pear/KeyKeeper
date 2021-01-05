@@ -13,8 +13,8 @@
         Title="Key Keeper" 
         Height="600" Width="800"
         MinHeight="600" MinWidth="800"
-        WindowStartupLocation="CenterScreen" 
-        ResizeMode="CanMinimize">
+        MaxHeight="600" MaxWidth="1200"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" SpreadMethod="Reflect">
@@ -42,9 +42,8 @@
         </StackPanel>
         <TextBlock Grid.Row="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Margin="10" Text="KeyKeeper [build info here]" Foreground="LightGray" FontSize="12" VerticalAlignment="Bottom"/>
         <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer }" Margin="10" VerticalAlignment="Bottom" Text="KEY KEEPER" Foreground="LightGray" FontSize="48" HorizontalAlignment="Right"/>
-        <TabControl Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Background="Transparent" BorderBrush="Transparent"
+        <TabControl Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Style="{StaticResource AppStyle_TabControl}"
                     ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}">
-            <!--BINDING MAGIC ! :)-->
             <TabControl.Resources>
                 <DataTemplate DataType="{x:Type CareTakerTab:CareTakerViewModel}">
                     <CareTakerTab:CareTakerView/>
@@ -62,8 +61,8 @@
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type Common:ITab}">
                     <StackPanel Orientation="Horizontal" Height="22">
-                        <TextBlock Style="{StaticResource AppStyle_TextBlock}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TabTitle}"/>
-                        <Button Command="{Binding CloseCommand}" ToolTip="Zamknij Tab."/>
+                        <TextBlock FontFamily="Calibri" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="DarkRed" Text="{Binding TabTitle}" Margin="5,0,5,0"/>
+                        <Button Command="{Binding CloseCommand}" Style="{StaticResource AppStyle_IconButton}" Foreground="DarkRed" Content="X" ToolTip="Zamknij Tab."/>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

@@ -95,7 +95,7 @@ namespace KeyKeeper.ViewModel
         // Command methods:
         protected virtual void OpenRoomKeyManagerTab() // wrapper
         {
-            OpenTab(new CareTakerViewModel());
+            OpenTab(new CareTakerViewModel(new DataModelCommandOperations(), new DataModelQueryOperations()));
         }
         protected virtual void OpenRoomKeyReportTab() // wrapper
         {
@@ -103,7 +103,7 @@ namespace KeyKeeper.ViewModel
         }
         protected virtual void OpenEmployeeBaseManagerTab() // wrapper
         {
-            OpenTab(new EmployeeBaseViewModel());
+            OpenTab(new EmployeeBaseViewModel(new RecordRepositoryManagerOperations<Employee>()));
         }
         protected virtual void OpenRoomKeyBaseManagerTab() // wrapper
         {
