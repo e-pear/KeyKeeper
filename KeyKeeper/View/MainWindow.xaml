@@ -38,7 +38,7 @@
             <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenRoomKeyReportCommand}" Content="Raport" Foreground="DarkRed" ToolTip="Wyświetl raport dot. kluczy."/>
             <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenEmployeeDataBaseManagerCommand}" Content="Baza Osób" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych pracowników."/>
             <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenRoomKeyDataBaseManagerCommand}" Content="Baza Kluczy" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych kluczy."/>
-            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ConfigureConnectionSettings}" Content="Konfiguracja Połączenia" Foreground="DarkRed" ToolTip="Konfiguruj połączenia z bazą danych."/>
+            <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ConfigureConnectionSettingsCommand}" Content="Konfiguracja Połączenia" Foreground="DarkRed" ToolTip="Konfiguruj połączenia z bazą danych."/>
         </StackPanel>
         <TextBlock Grid.Row="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Margin="10" Text="KeyKeeper [build info here]" Foreground="LightGray" FontSize="12" VerticalAlignment="Bottom"/>
         <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer }" Margin="10" VerticalAlignment="Bottom" Text="KEY KEEPER" Foreground="LightGray" FontSize="48" HorizontalAlignment="Right"/>
@@ -67,6 +67,10 @@
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </TabControl>
-        <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Background="Transparent" Foreground="White"/>
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Background="Transparent" Foreground="White">
+            <StatusBarItem HorizontalAlignment="Right" VerticalAlignment="Center">
+                <TextBlock FontFamily="Calibri" FontSize="12" Foreground="White" Text="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

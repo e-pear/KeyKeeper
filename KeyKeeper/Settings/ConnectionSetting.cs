@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using KeyKeeper.Model.DataAccess;
+using System.Configuration;
 
 namespace KeyKeeper.Settings
 {
@@ -14,7 +15,7 @@ namespace KeyKeeper.Settings
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            string defaultConnectionString = "Server=DESKTOP;Database=KeyKeeperDataBase;User ID = KeyKeeperClient; password = KeyKeeperPassword";
+            string defaultConnectionString = "Server=DESKTOP;Database=KeyKeeperDataBase;User ID=KeyKeeperClient;password=KeyKeeperPassword";
 
             config.ConnectionStrings.ConnectionStrings["ContextOnLocalServer"].ConnectionString = defaultConnectionString;
             config.ConnectionStrings.ConnectionStrings["ContextOnLocalServer"].ProviderName = "System.Data.SqlClient";
@@ -32,12 +33,33 @@ namespace KeyKeeper.Settings
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            string defaultConnectionString = $"Server = {server};Database = {database};User ID = {userId}; password = {password}";
+            string newConnectionString = $"Server={server};Database={database};User ID={userId};password={password}";
 
-            config.ConnectionStrings.ConnectionStrings["ContextOnLocalServer"].ConnectionString = defaultConnectionString;
+            config.ConnectionStrings.ConnectionStrings["ContextOnLocalServer"].ConnectionString = newConnectionString;
             config.ConnectionStrings.ConnectionStrings["ContextOnLocalServer"].ProviderName = "System.Data.SqlClient"; ;
 
             config.Save(ConfigurationSaveMode.Modified);
+        }
+        /// <summary>
+        /// Get current connection string.
+        /// </summary>
+        /// <returns>Connection string.</returns>
+        public static string GetCurrentConnectionString()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            return config.ConnectionStrings.ConnectionStrings["ContextOnLocalServer"].ConnectionString;
+        }
+        /// <summary>
+        /// Just checking if database exists.
+        /// </summary>
+        /// <returns>True if so.</returns>
+        public static bool TestDatabaseExistance()
+        {
+            using (CompanyDbContext companyDb = new CompanyDbContext())
+            {
+                return companyDb.Database.Exists();
+            }
         }
     }
 }

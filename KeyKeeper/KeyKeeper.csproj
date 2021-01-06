@@ -152,6 +152,8 @@
     <Compile Include="Tabs\RoomKeyBase\RoomKeyBaseViewModel.cs" />
     <Compile Include="ViewModel\CommandRelay.cs" />
     <Compile Include="ViewModel\ITab.cs" />
+    <Compile Include="ViewModel\StatusReporter.cs" />
+    <Compile Include="ViewModel\TabNotificationSentEventArgs.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="ViewModel\Tab.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

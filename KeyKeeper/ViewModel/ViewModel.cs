@@ -1,10 +1,12 @@
-﻿using KeyKeeper.Tabs.CareTaker;
+﻿using KeyKeeper.Dialogs;
+using KeyKeeper.Tabs.CareTaker;
 using KeyKeeper.Tabs.EmployeeBase;
 using KeyKeeper.Tabs.KeyReport;
 using KeyKeeper.Tabs.RoomKeyBase;
 using KeyKeeper.Model.DataModel;
 using KeyKeeper.Model.DataOperations;
 using KeyKeeper.Model;
+using KeyKeeper.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +24,9 @@ namespace KeyKeeper.ViewModel
     /// </summary>
     public class ViewModel : INotifyPropertyChanged
     {
+        // Status Reporter:
+        private StatusReporter _statusReporter;
+        public string Status { get { return _statusReporter.Status; } }
         // Tab properties with backing fields:
         private readonly ObservableCollection<ITab> _tabs;
         private ITab _selectedTab;
@@ -43,7 +48,7 @@ namespace KeyKeeper.ViewModel
         public ICommand OpenRoomKeyReportCommand { get; }
         public ICommand OpenEmployeeDataBaseManagerCommand { get; }
         public ICommand OpenRoomKeyDataBaseManagerCommand { get; }
-        public ICommand ConfigureConnectionSettings { get; }
+        public ICommand ConfigureConnectionSettingsCommand { get; }
 
         // Standard events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -57,6 +62,9 @@ namespace KeyKeeper.ViewModel
         // Constructor
         public ViewModel()
         {
+            _statusReporter = new StatusReporter();
+            _statusReporter.PropertyChanged += OnStatusInformerStateChanged;
+            
             _tabs = new ObservableCollection<ITab>();
             _tabs.CollectionChanged += OnTabsCollectionChanged;
 
@@ -64,6 +72,7 @@ namespace KeyKeeper.ViewModel
             OpenRoomKeyReportCommand = new CommandRelay(OpenRoomKeyReportTab, () => true);
             OpenEmployeeDataBaseManagerCommand = new CommandRelay(OpenEmployeeBaseManagerTab, () => true);
             OpenRoomKeyDataBaseManagerCommand = new CommandRelay(OpenRoomKeyBaseManagerTab, () => true);
+            ConfigureConnectionSettingsCommand = new CommandRelay(ConfigureConnection, () => true);
         }
 
         // Event Actions:
@@ -90,7 +99,12 @@ namespace KeyKeeper.ViewModel
         }
         protected virtual void OnTabNotificationSent(object sender, EventArgs e)
         {
-            // do nothing now...
+            TabNotificationSentEventArgs args = e as TabNotificationSentEventArgs;
+            _statusReporter.ReportStatus(args.Message);
+        }
+        protected virtual void OnStatusInformerStateChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChangedEvent(nameof(Status));
         }
         // Command methods:
         protected virtual void OpenRoomKeyManagerTab() // wrapper
@@ -125,7 +139,36 @@ namespace KeyKeeper.ViewModel
         }
         protected virtual void ConfigureConnection()
         {
-            // not implemented yet
+            string currentConnectionString = ConnectionSetting.GetCurrentConnectionString();
+            string[] connectionStringRawParams = currentConnectionString.Split(';');
+            List<string> connectionStringParams = new List<string>();
+
+            foreach(string rawParam in connectionStringRawParams)
+            {
+                string param = rawParam.Substring(rawParam.IndexOf('=') + 1);
+                connectionStringParams.Add(param);
+            }
+
+            DialogBoxFactory dialogBoxFactory = new DialogBoxFactory();
+
+            dialogBoxFactory.HeaderMessage = "Ustawienia połączenia z bazą danych:";
+            dialogBoxFactory.RequestedParameters = new List<string>() { "Nazwa/Adres Serwera", "Nazwa Bazy Danych", "Login", "Hasło" };
+            dialogBoxFactory.DefaultValuesForRequestedParameters = connectionStringParams;
+            dialogBoxFactory.CorrespondingRules = new List<ValidationRules>();
+
+            RequestDialogBox dialogBox = dialogBoxFactory.GetRequestDialogBox();
+            
+            if((bool)dialogBox.ShowDialog())
+            {
+                ConnectionSetting.SetNewConnectionString(dialogBox[0], dialogBox[1], dialogBox[2], dialogBox[3]);
+                if (ConnectionSetting.TestDatabaseExistance()) ReportStatus("Konfiguracja połączenia zakończona sukcesem.");
+                else ReportStatus("Błąd konfiguracji. Nie odnaleziono bazy danych.");
+            }
+            else ReportStatus("Konfiguracja połączenia anulowana.");
+        }
+        protected virtual void ReportStatus(string message)
+        {
+            _statusReporter.ReportStatus(message);
         }
     }
 }
