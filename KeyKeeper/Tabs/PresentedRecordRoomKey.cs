@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Tabs
 {
+    /// <summary>
+    /// Helper object for CRUD room key tab. Presents database record details on binded view.
+    /// </summary>
     class PresentedRecordRoomKey : IPresentedRecordOf<RoomKey>
     {
+        // properties:
         public string Id { get; set; }
         public string Room { get; set; }
-
+        // interface implementation:
         public void ClearPresentedRecord()
         {
             Id = null;

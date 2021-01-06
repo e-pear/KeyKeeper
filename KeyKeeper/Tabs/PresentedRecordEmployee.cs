@@ -8,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Tabs
 {
+    /// <summary>
+    /// Helper object for CRUD employee tab. Presents database record details on binded view.
+    /// </summary>
     public class PresentedRecordEmployee : IPresentedRecordOf<Employee>
     {
+        // properties:
         public string Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Position { get; set; }
         public string Department { get; set; }
-
+        // IPresentedRecord interface implementation:
         public string GetPresentedIdCode()
         {
             return Id;

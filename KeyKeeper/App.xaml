@@ -297,7 +297,7 @@
         <!--#endregion-->
         <!--#endregion-->
         <!--#region TABCONTROL STYLES-->
-        <!-- *) Base TabControl Style-->
+        <!--#region *) Base TabControl Style-->
         <Style x:Key="AppStyle_TabControl" TargetType="TabControl">
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Background" Value="Transparent"/>

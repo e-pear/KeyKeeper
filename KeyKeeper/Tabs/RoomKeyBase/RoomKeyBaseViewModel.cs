@@ -11,9 +11,12 @@ using System.Windows.Input;
 
 namespace KeyKeeper.Tabs.RoomKeyBase
 {
+    /// <summary>
+    /// Mighty CRUD view model object for Employee CRUD view.
+    /// </summary>
     public class RoomKeyBaseViewModel : DataBaseViewModel<RoomKey>
     {
-
+        // Constructor:
         public RoomKeyBaseViewModel(IRepositoryManagerOperations<RoomKey> dataProvider) : base(dataProvider, "Baza Kluczy") 
         {
             _presentedRecord = new PresentedRecordRoomKey(); 

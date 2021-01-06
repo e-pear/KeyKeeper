@@ -9,12 +9,17 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Dialogs
 {
+    /// <summary>
+    /// View model for RequestDialogBox object. Exists only for storing dynamic indexer.
+    /// </summary>
     public class RequestDialogBoxContext
     {
         public StringParameter StringParameter { get; } = new StringParameter();
     }
-
-    public class StringParameter : INotifyCollectionChanged
+    /// <summary>
+    ///  Dynamic indexer. Stores parameters entered by user in Request Dialog Box.
+    /// </summary>
+    public class StringParameter : INotifyCollectionChanged // normally I would put this one in separate file... but it is strong related with context...
     {
         private ObservableCollection<string> parameters;
         

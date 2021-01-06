@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Tabs.CareTaker
 {
+    /// <summary>
+    /// Simple object binded with particular controls in view. Provides also basic mass set and get methods.
+    /// Doesn't inform view about it's changes. The parental view model do so for it.
+    /// </summary>
     public class PresentedRegisteredEmployee
     {
+        // backing fields:
         private ObservableCollection<RoomKey> _heldKeys;
         private string _id;
         private string _name;
@@ -17,7 +22,7 @@ namespace KeyKeeper.Tabs.CareTaker
         private string _position;
         private string _department;
         private bool _isRegistrationValid;
-
+        // properties:
         public string Id { get { return _id; } }
         public string Name { get { return _name; } }
         public string Surname { get { return _surname; } }
@@ -27,12 +32,12 @@ namespace KeyKeeper.Tabs.CareTaker
         public ObservableCollection<RoomKey> HeldKeys { get { return _heldKeys; } }
 
         public bool IsRegistrationValid { get { return _isRegistrationValid; } }
-
+        // constructor:
         public PresentedRegisteredEmployee()
         {
             Reset();
         }
-
+        // mass reset method:
         public virtual void Reset()
         {
             _id = null;
@@ -45,10 +50,12 @@ namespace KeyKeeper.Tabs.CareTaker
 
             _isRegistrationValid = false;
         }
+        // keys collection refresh method:
         public virtual void RefreshHeldKeys(IEnumerable<RoomKey> keys)
         {
             _heldKeys = new ObservableCollection<RoomKey>(keys);
         }
+        // mass setter:
         public virtual void RegisterNewEmployee(Employee employee, IEnumerable<RoomKey> keys)
         {
             _id = employee.Employee_Id;
@@ -61,6 +68,7 @@ namespace KeyKeeper.Tabs.CareTaker
 
             _isRegistrationValid = true;
         }
+        // handy getter:
         public Employee GetRegisteredEmployee()
         {
             if (IsRegistrationValid) return new Employee(Id, Name, Surname, Position, Department);

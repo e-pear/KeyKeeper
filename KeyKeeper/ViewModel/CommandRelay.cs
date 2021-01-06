@@ -7,12 +7,13 @@ using System.Windows.Input;
 
 namespace KeyKeeper.ViewModel
 {
-    // Something like RelayCommand class...
-    // Used by ViewModels to prevent multiplying ICommand objects
+    /// <summary>
+    /// Old class borrowed from my other project. It allow to nicely wrap methods into commands. A lot thinner and smaller cousin of RelayCommand class.
+    /// </summary>
     public class CommandRelay : ICommand
     {
         private Action action;
-        private Action<object> action_p; // that one supports actions with parameters
+        private Action<object> action_p; // that one supports actions with parameters (not used in KeyKeeper)
         private Func<bool> canExecute;
 
         public CommandRelay(Action action, Func<bool> canExecute)

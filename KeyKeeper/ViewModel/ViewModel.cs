@@ -106,7 +106,7 @@ namespace KeyKeeper.ViewModel
         {
             RaisePropertyChangedEvent(nameof(Status));
         }
-        // Command methods:
+        // Command methods: (here the concrete data access objects are injected)
         protected virtual void OpenRoomKeyManagerTab() // wrapper
         {
             OpenTab(new CareTakerViewModel(new DataModelCommandOperations(), new DataModelQueryOperations()));
@@ -123,7 +123,7 @@ namespace KeyKeeper.ViewModel
         {
             OpenTab(new RoomKeyBaseViewModel(new RecordRepositoryManagerOperations<RoomKey>()));
         }
-        protected virtual void OpenTab(ITab newTab) // method allows only one tab of particular type at time.
+        protected virtual void OpenTab(ITab newTab) // method allows only one tab of particular type at time
         {
             var redundantTabs = Tabs.Where(tab => tab.GetType() == newTab.GetType());
 
@@ -137,7 +137,7 @@ namespace KeyKeeper.ViewModel
                 SelectedTab = Tabs[Tabs.IndexOf(redundantTabs.First())];
             }
         }
-        protected virtual void ConfigureConnection()
+        protected virtual void ConfigureConnection() // Method building a request dialog box, with presented actual connection string parameters, and allows for their independent change. 
         {
             string currentConnectionString = ConnectionSetting.GetCurrentConnectionString();
             string[] connectionStringRawParams = currentConnectionString.Split(';');
@@ -166,7 +166,7 @@ namespace KeyKeeper.ViewModel
             }
             else ReportStatus("Konfiguracja połączenia anulowana.");
         }
-        protected virtual void ReportStatus(string message)
+        protected virtual void ReportStatus(string message) // Passing messages to status reporter object.
         {
             _statusReporter.ReportStatus(message);
         }

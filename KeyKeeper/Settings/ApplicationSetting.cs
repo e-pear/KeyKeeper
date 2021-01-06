@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Settings
 {
+    /// <summary>
+    /// Simple setting class to "manage"... well application settings.
+    /// </summary>
     public static class ApplicationSetting
     {
+        /// <summary>
+        /// Provide an build number information stored in appconfig.
+        /// </summary>
+        /// <returns></returns>
         public static string GetBuildInfoSetting()
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.ViewModel
 {
+    /// <summary>
+    /// Container for tab notivication events messages.
+    /// </summary>
     class TabNotificationSentEventArgs : EventArgs
     {
         public string Message { get; set; }

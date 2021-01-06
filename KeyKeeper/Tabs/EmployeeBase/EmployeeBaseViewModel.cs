@@ -9,8 +9,12 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Tabs.EmployeeBase
 {
+    /// <summary>
+    /// Mighty CRUD view model object for Employee CRUD view.
+    /// </summary>
     public class EmployeeBaseViewModel : DataBaseViewModel<Employee>
     {
+        // Constructor:
         public EmployeeBaseViewModel(IRepositoryManagerOperations<Employee> dataProvider) : base(dataProvider, "Baza Pracowników") 
         {
             _presentedRecord = new PresentedRecordEmployee();

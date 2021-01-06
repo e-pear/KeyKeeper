@@ -12,8 +12,12 @@ using KeyKeeper.Dialogs;
 
 namespace KeyKeeper.Tabs.KeyReport
 {
+    /// <summary>
+    /// View model class for reports generating tab.
+    /// </summary>
     public class ReportViewModel : Tab
     {
+        //Data provider objects abstractions:
         IDataModelQueryOperations _queryProvider;
         // Tab properties with backing fields:
         private ObservableCollection<RoomKey> _keys;
@@ -47,15 +51,15 @@ namespace KeyKeeper.Tabs.KeyReport
             
             }
         }
-        
+        // Currently selected room key's detail in-view provider object:
         public PresentedDetail Detail { get; }
-
+        // Commands:
         public ICommand ShowAllRoomKeysCommand { get; }
         public ICommand ShowHandoveredRoomKeysCommand { get; }
         public ICommand ShowRemainingRoomKeysCommand { get; }
         public ICommand ShowSpecifiedKeyCommand { get; }
 
-
+        // Constructor:
         public ReportViewModel(IDataModelQueryOperations queryProvider) : base("Raport o stanie kluczy")
         {
             _queryProvider = queryProvider;
@@ -69,6 +73,7 @@ namespace KeyKeeper.Tabs.KeyReport
 
             ResetKeysCollection();
         }
+        // Presented key collection and detail reset methods:
         protected virtual void ResetKeysCollection(IEnumerable<RoomKey> collection)
         {
             _keys = new ObservableCollection<RoomKey>(collection);
@@ -84,7 +89,7 @@ namespace KeyKeeper.Tabs.KeyReport
             Detail.SetAsGatehouseDetail();
             RaisePropertyChangedEvent(nameof(Detail));
         }
-
+        // Method showing all keys in data base:
         protected virtual void ShowAllRoomKeys()
         {
             IEnumerable<RoomKey> results;
@@ -101,7 +106,7 @@ namespace KeyKeeper.Tabs.KeyReport
             ResetKeysCollection(results);
             ResetPresentedDetail();
         }
-
+        // Method showing only currently handovered keys:
         protected virtual void ShowHandoveredRoomKeys()
         {
             IEnumerable<RoomKey> results;
@@ -118,7 +123,7 @@ namespace KeyKeeper.Tabs.KeyReport
             ResetKeysCollection(results);
             ResetPresentedDetail();
         }
-
+        // Method showing only keys that remain on the gatehouse:
         protected virtual void ShowRemainingRoomKeys()
         {
             IEnumerable<RoomKey> results;
@@ -135,25 +140,27 @@ namespace KeyKeeper.Tabs.KeyReport
             ResetKeysCollection(results);
             ResetPresentedDetail();
         }
+        // Method finding particular key specified by user:
         protected virtual void ShowSpecifiedKey()
         {
             DialogBoxFactory dialogFactory = new DialogBoxFactory();
             RequestDialogBox dialogBox;
             RoomKey key;
             string id;
-
+            // dialog box building part:
             dialogFactory.HeaderMessage = "Proszę podać numer szukanego klucza.";
             dialogFactory.RequestedParameters = new List<string>() { "Numer Identyfikacyjny" };
             dialogFactory.DefaultValuesForRequestedParameters = new List<string>();
             dialogFactory.CorrespondingRules = new List<ValidationRules> { ValidationRules.StringTyped4DigitCode };
 
             dialogBox = dialogFactory.GetRequestDialogBox();
+            // dialog box handling part:
             if ((bool)dialogBox.ShowDialog())
             {
                 id = dialogBox[0];
             }
             else return;
-
+            // data access part
             try
             {
                key = _queryProvider.GetRoomKeyByIdAsync(id).Result;
@@ -163,7 +170,7 @@ namespace KeyKeeper.Tabs.KeyReport
                 SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
                 return;
             }
-             
+            // data validation part: 
             if (key == null)
             {
                 DialogBoxFactory.GetInfoBox($"Brak wyników. Klucz o numerze: {id} nie istnieje w Bazie.").Show();
