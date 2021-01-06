@@ -94,6 +94,7 @@
     <Compile Include="Dialogs\RequestDialogBoxContext.cs" />
     <Compile Include="Model\IRecord.cs" />
     <Compile Include="Rules\FourDigitIdValidationRule.cs" />
+    <Compile Include="Settings\ApplicationSetting.cs" />
     <Compile Include="Settings\ConnectionSetting.cs" />
     <Page Include="Dialogs\InfoBox.xaml">
       <SubType>Designer</SubType>

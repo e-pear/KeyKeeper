@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KeyKeeper.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,10 @@ namespace KeyKeeper.View
     {
         public MainWindow()
         {
-            this.DataContext = new ViewModel.ViewModel();
             InitializeComponent();
+
+            this.DataContext = new ViewModel.ViewModel();
+            this.BuildLabel.Text = $"BUILD:\n{ApplicationSetting.GetBuildInfoSetting()}";
         }
     }
 }

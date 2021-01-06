@@ -40,7 +40,7 @@
             <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding OpenRoomKeyDataBaseManagerCommand}" Content="Baza Kluczy" Foreground="DarkRed" ToolTip="Zarządzaj bazą danych kluczy."/>
             <Button Style="{StaticResource AppStyle_MainMenuButton}" Command="{Binding ConfigureConnectionSettingsCommand}" Content="Konfiguracja Połączenia" Foreground="DarkRed" ToolTip="Konfiguruj połączenia z bazą danych."/>
         </StackPanel>
-        <TextBlock Grid.Row="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Margin="10" Text="KeyKeeper [build info here]" Foreground="LightGray" FontSize="12" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="BuildLabel" Grid.Row="2" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer}" Margin="10" Text="KeyKeeper [build info here]" Foreground="LightGray" FontSize="12" VerticalAlignment="Bottom"/>
         <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource MainMenuButtonStyle_TextBlockContainer }" Margin="10" VerticalAlignment="Bottom" Text="KEY KEEPER" Foreground="LightGray" FontSize="48" HorizontalAlignment="Right"/>
         <TabControl Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Style="{StaticResource AppStyle_TabControl}"
                     ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}">
