@@ -73,7 +73,7 @@
                 </Grid>
             </GroupBox>
             <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5" VerticalAlignment="Center">
-                <Button Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding SaveRecordCommand}" Foreground="DarkRed" Content="ZAPISZ JAKO NOWY REKORD" ToolTip="Zapisz dane pracownika do bazy danych jako nowy rekord."/>
+                <Button Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding SaveRecordCommand}" Foreground="DarkRed" Content="ZAPISZ JAKO NOWY REKORD" ToolTip="Zapisz dane klucza do bazy danych jako nowy rekord."/>
                 <Button Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding UpdateRecordCommand}" Foreground="DarkRed" Content="UAKTUALNIJ REKORD" ToolTip="Nadpisz rekord aktualnymi danymi."/>
                 <Button Style="{StaticResource AppStyle_SideMenuButton}" Command="{Binding DeleteRecordCommand}" Foreground="DarkRed" Content="USUŃ REKORD" ToolTip="Usuń zaznaczony rekord."/>
             </StackPanel>
