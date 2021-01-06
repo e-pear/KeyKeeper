@@ -21,12 +21,13 @@ namespace KeyKeeper.Dialogs
     /// This "little fella" is able to draw/render itself during runtime. It is "one for all" dialog box for retreiving additional informations from user. 
     /// Object is meant to render itself according to needs of the moment. Constructor accepts a collection of needed parameters along with collection of corresponding validation rules.
     /// Then it renders a pair of Label-TextBox pairs in dialog window. So the requested parameters become a label descriptions for proper in-parameter textboxes. Validation rules are applied(or not) by index matching.
-    /// Object is well... "MVVM" a little :) and not so SOLID, at least for the near future. And it's not perfect it won't auto resize to fit all content, so be carefull with passing extremely long user messages to it. 
+    /// Object is well... "MVVM" a little :) and not so SOLID, at least for the near future. And it's not perfect, so be carefull with passing extremely long user messages to it. 
     /// </summary>
     public partial class RequestDialogBox : Window
     {
         // Hlepers, both store input informations passed via constructor:
         private List<string> _parametersIndexes;
+        private List<string> _parametersDefaultValues;
         private List<ValidationRule> _validationRules;
         
         // Hleper, rememberes xaml controls which have any validation rule set <- the confirm's command canexecute method uses it.
@@ -43,10 +44,11 @@ namespace KeyKeeper.Dialogs
             }
         }
         //Constructor:
-        public RequestDialogBox(string userMessage, IEnumerable<string> collectionOfRequestedParameters, IEnumerable<ValidationRule> collectionOfCorrespondingValidationRules)
+        public RequestDialogBox(string userMessage, IEnumerable<string> collectionOfRequestedParameters, IEnumerable<string> defaultParameterValues, IEnumerable<ValidationRule> collectionOfCorrespondingValidationRules)
         {
             _dialogContext = new RequestDialogBoxContext();
             _parametersIndexes = collectionOfRequestedParameters.ToList();
+            _parametersDefaultValues = defaultParameterValues.ToList();
             _validationRules = collectionOfCorrespondingValidationRules.ToList();
             _validatedObjects = new List<TextBox>();
 
@@ -81,6 +83,8 @@ namespace KeyKeeper.Dialogs
             // head row if needed:
             if(headerMessage != null && headerMessage != "")
             {
+                this.Height += 30; // little extension of dialog box
+
                 // defining head row:
                 RowDefinition headRow = new RowDefinition();
                 headRow.Height = new GridLength(2,GridUnitType.Star);
@@ -108,8 +112,10 @@ namespace KeyKeeper.Dialogs
 
             for (int i = 0; i < _parametersIndexes.Count(); i++)
             {
-                _dialogContext.StringParameter[i] = null; // add null to parameter collection
-                
+                // "initialize" parameter collection:
+                if (_parametersDefaultValues != null && i < _parametersDefaultValues.Count) _dialogContext.StringParameter[i] = _parametersDefaultValues[i];
+                else _dialogContext.StringParameter[i] = null;
+
                 this.Height += 30; // little extension of dialog box
 
                 // creating necessary instances:

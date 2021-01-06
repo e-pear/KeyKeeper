@@ -13,6 +13,7 @@ namespace KeyKeeper.Dialogs
     {
         public string HeaderMessage { get; set; }
         public IEnumerable<string> RequestedParameters { get; set; }
+        public IEnumerable<string> DefaultValuesForRequestedParameters { get; set; }
         public IEnumerable<ValidationRules> CorrespondingRules { get; set; }
 
         public static InfoBox GetInfoBox(string info)
@@ -22,7 +23,7 @@ namespace KeyKeeper.Dialogs
 
         public RequestDialogBox GetRequestDialogBox()
         {
-            return new RequestDialogBox(HeaderMessage, RequestedParameters, GetRules(CorrespondingRules));
+            return new RequestDialogBox(HeaderMessage, RequestedParameters, DefaultValuesForRequestedParameters, GetRules(CorrespondingRules));
         }
 
 
