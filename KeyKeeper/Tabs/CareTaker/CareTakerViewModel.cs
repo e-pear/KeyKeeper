@@ -104,6 +104,7 @@ namespace KeyKeeper.Tabs.CareTaker
         }
         protected virtual void HandoverTheKey()
         {
+            RoomKey searchedKey;
             string requestedKeyId = UI_RequestId("Proszę podać numer klucza:");
 
             if (requestedKeyId == null)
@@ -111,9 +112,17 @@ namespace KeyKeeper.Tabs.CareTaker
                 DialogBoxFactory.GetInfoBox("Procedura anulowana!").Show();
                 return;
             }
-
-            RoomKey searchedKey = _dataQueryProvider.GetRoomKeyByIdAsync(requestedKeyId).Result;
-
+            
+            try
+            {
+                searchedKey = _dataQueryProvider.GetRoomKeyByIdAsync(requestedKeyId).Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
+            
             if (searchedKey == null)
             {
                 DialogBoxFactory.GetInfoBox("Klucz nie został odnaleziony w Bazie.").Show();
@@ -126,7 +135,15 @@ namespace KeyKeeper.Tabs.CareTaker
             }
             else
             {
-                _dataCommandProvider.HandOverTheRoomKeyToEmployeeAsync(searchedKey,RegisteredEmployee.GetRegisteredEmployee()).Wait();
+                try
+                {
+                    _dataCommandProvider.HandOverTheRoomKeyToEmployeeAsync(searchedKey, RegisteredEmployee.GetRegisteredEmployee()).Wait();
+                }
+                catch (Exception e)
+                {
+                    SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                    return;
+                }
                 DialogBoxFactory.GetInfoBox("Wydano klucz!").Show();
             }
             RegisteredEmployee.RefreshHeldKeys(DB_RequestEmployeesOwnedKeys(RegisteredEmployee.GetRegisteredEmployee()));
@@ -151,7 +168,15 @@ namespace KeyKeeper.Tabs.CareTaker
             }
             else if (searchedKeys.Count == 1)
             {
-                _dataCommandProvider.TakeTheRoomKeyAsync(searchedKeys[0]).Wait();
+                try
+                {
+                    _dataCommandProvider.TakeTheRoomKeyAsync(searchedKeys[0]).Wait();
+                }
+                catch (Exception e)
+                {
+                    SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                    return;
+                }
                 DialogBoxFactory.GetInfoBox("Przyjęto klucz!").Show();
             }
             else
@@ -200,7 +225,15 @@ namespace KeyKeeper.Tabs.CareTaker
             }
             else return null;
 
-            return employees = _dataQueryProvider.GetEmployeesByNamesAsync(name, surname).Result;
+            try
+            {
+                return employees = _dataQueryProvider.GetEmployeesByNamesAsync(name, surname).Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return new List<Employee>();
+            }
         }
         private string UI_RequestId(string message)
         {
@@ -225,7 +258,15 @@ namespace KeyKeeper.Tabs.CareTaker
 
         private IEnumerable<RoomKey> DB_RequestEmployeesOwnedKeys(Employee employee)
         {
-            return _dataQueryProvider.GetAllRoomKeysOwnedByEmployeeAsync(employee).Result;
+            try
+            {
+                return _dataQueryProvider.GetAllRoomKeysOwnedByEmployeeAsync(employee).Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return new List<RoomKey>();
+            } 
         }
 
 

@@ -29,8 +29,15 @@ namespace KeyKeeper.Tabs.KeyReport
 
                 if (SelectedKey != null && SelectedKey.AssignedEmployee_Id != null)
                 {
-                    Detail.SetAsEmployeeDetail(_queryProvider.GetEmployeeByOwnedKeyAsync(SelectedKey).Result);
-                    RaisePropertyChangedEvent(nameof(Detail));
+                    try
+                    {
+                        Detail.SetAsEmployeeDetail(_queryProvider.GetEmployeeByOwnedKeyAsync(SelectedKey).Result);
+                        RaisePropertyChangedEvent(nameof(Detail));
+                    }
+                    catch (Exception e)
+                    {
+                        SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                    }
                 }
                 else
                 {
@@ -80,7 +87,16 @@ namespace KeyKeeper.Tabs.KeyReport
 
         protected virtual void ShowAllRoomKeys()
         {
-            IEnumerable<RoomKey> results = _queryProvider.GetAllRoomKeysAsync().Result;
+            IEnumerable<RoomKey> results;
+            try
+            {
+                results = _queryProvider.GetAllRoomKeysAsync().Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
             if (results.Count() == 0) DialogBoxFactory.GetInfoBox("Kolekcja jest pusta. Proszę skontaktować się z Administratorem bazy danych.").Show();
             ResetKeysCollection(results);
             ResetPresentedDetail();
@@ -88,7 +104,16 @@ namespace KeyKeeper.Tabs.KeyReport
 
         protected virtual void ShowHandoveredRoomKeys()
         {
-            IEnumerable<RoomKey> results = _queryProvider.GetHandoveredRoomKeysAsync().Result;
+            IEnumerable<RoomKey> results;
+            try
+            {
+                results = _queryProvider.GetHandoveredRoomKeysAsync().Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
             if (results.Count() == 0) DialogBoxFactory.GetInfoBox("Kolekcja jest pusta. Nie wydano żadnego klucza.").Show();
             ResetKeysCollection(results);
             ResetPresentedDetail();
@@ -96,7 +121,16 @@ namespace KeyKeeper.Tabs.KeyReport
 
         protected virtual void ShowRemainingRoomKeys()
         {
-            IEnumerable<RoomKey> results = _queryProvider.GetAvailableRoomKeysAsync().Result;
+            IEnumerable<RoomKey> results;
+            try
+            {
+                results = _queryProvider.GetAvailableRoomKeysAsync().Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
             if (results.Count() == 0) DialogBoxFactory.GetInfoBox("Kolekcja jest pusta. Wszystkie klucze zostały wydane.").Show();
             ResetKeysCollection(results);
             ResetPresentedDetail();
@@ -105,6 +139,7 @@ namespace KeyKeeper.Tabs.KeyReport
         {
             DialogBoxFactory dialogFactory = new DialogBoxFactory();
             RequestDialogBox dialogBox;
+            RoomKey key;
             string id;
 
             dialogFactory.HeaderMessage = "Proszę podać numer szukanego klucza.";
@@ -119,7 +154,16 @@ namespace KeyKeeper.Tabs.KeyReport
             }
             else return;
 
-            RoomKey key = _queryProvider.GetRoomKeyByIdAsync(id).Result;
+            try
+            {
+               key = _queryProvider.GetRoomKeyByIdAsync(id).Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
+             
             if (key == null)
             {
                 DialogBoxFactory.GetInfoBox($"Brak wyników. Klucz o numerze: {id} nie istnieje w Bazie.").Show();

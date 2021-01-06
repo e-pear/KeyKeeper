@@ -1,4 +1,5 @@
-﻿using KeyKeeper.Model;
+﻿using KeyKeeper.Dialogs;
+using KeyKeeper.Model;
 using KeyKeeper.Model.DataOperations;
 using KeyKeeper.ViewModel;
 using System;
@@ -52,25 +53,60 @@ namespace KeyKeeper.Tabs
 
         protected virtual void RefreshKeysCollection()
         {
-            IEnumerable<T> records = _dataProvider.GetAllRecordsAsync().Result; 
+            IEnumerable<T> records;
+
+            try
+            {
+                records = _dataProvider.GetAllRecordsAsync().Result;
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                records = new List<T>();
+            }
+
             _records = new ObservableCollection<T>(records);
             RaisePropertyChangedEvent(nameof(Records));
         }
 
         protected virtual void SaveRecord()
         {
-            _dataProvider.AddAsync(PresentedRecord.GetRecordFromPresentedRecord()).Wait();
-            RefreshKeysCollection();
+            try
+            {
+                _dataProvider.AddAsync(PresentedRecord.GetRecordFromPresentedRecord()).Wait();
+                RefreshKeysCollection();
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
         }
         protected virtual void UpdateRecord()
         {
-            _dataProvider.UpdateRecordAsync(PresentedRecord.GetRecordFromPresentedRecord()).Wait();
-            RefreshKeysCollection();
+            try
+            {
+                _dataProvider.UpdateRecordAsync(PresentedRecord.GetRecordFromPresentedRecord()).Wait();
+                RefreshKeysCollection();
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
         }
         protected virtual void DeleteRecord()
         {
-            _dataProvider.RemoveAsync(SelectedRecord).Wait();
-            RefreshKeysCollection();
+            try
+            {
+                _dataProvider.RemoveAsync(SelectedRecord).Wait();
+                RefreshKeysCollection();
+            }
+            catch (Exception e)
+            {
+                SendTabNotification(new TabNotificationSentEventArgs() { Message = e.Message });
+                return;
+            }
         }
         protected virtual void GenerateAvailableId()
         {
@@ -113,6 +149,7 @@ namespace KeyKeeper.Tabs
                     break;
                 }
             }
+            DialogBoxFactory.GetInfoBox("Błąd Krytyczny:\nPrzekroczono limit bazy danych. Skontaktuj się ze swoim Administratorem.");
             return code;
         }
         public override void TabRefresh()
