@@ -109,6 +109,7 @@ namespace KeyKeeper.Tabs.KeyReport
 
             dialogFactory.HeaderMessage = "Proszę podać numer szukanego klucza.";
             dialogFactory.RequestedParameters = new List<string>() { "Numer Identyfikacyjny" };
+            dialogFactory.DefaultValuesForRequestedParameters = new List<string>();
             dialogFactory.CorrespondingRules = new List<ValidationRules> { ValidationRules.StringTyped4DigitCode };
 
             dialogBox = dialogFactory.GetRequestDialogBox();

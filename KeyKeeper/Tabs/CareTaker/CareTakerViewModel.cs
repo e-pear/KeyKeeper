@@ -58,7 +58,7 @@ namespace KeyKeeper.Tabs.CareTaker
             {
                 case 0:
                     
-                    DialogBoxFactory.GetInfoBox("Rejestracja anulowana!\nPracownik nie istnieje w Bazie.").Show();
+                    DialogBoxFactory.GetInfoBox("Rejestracja anulowana!\n\nPracownik nie istnieje w Bazie.").Show();
                     break;
                 
                 case 1:
@@ -68,7 +68,7 @@ namespace KeyKeeper.Tabs.CareTaker
                 
                 default:
                     
-                    idUserCode = UI_RequestId("Proszę podać\nnumer identyfikacyjny\nPracownika:");
+                    idUserCode = UI_RequestId("Proszę podać numer identyfikacyjny Pracownika:");
                     if(idUserCode == null)
                     {
                         DialogBoxFactory.GetInfoBox("Rejestracja anulowana!").Show();
@@ -77,13 +77,20 @@ namespace KeyKeeper.Tabs.CareTaker
 
                     potentialEmployees = employees.Where(e => e.Employee_Id == idUserCode).ToList();
 
-                    if(potentialEmployees.Count != 1)
+                    if (potentialEmployees.Count == 0)
                     {
-                        DialogBoxFactory.GetInfoBox("Wykryto poważny błąd bazy Danych:\nDuplikacja numeru identyfikacyjnego pracownika.\nSkontaktuj się ze swoim Administratorem.").Show();
+                        DialogBoxFactory.GetInfoBox($"Nie znaleziono pracownika: {potentialEmployees[0].Name} {potentialEmployees[0]} o numerze ID: {idUserCode}.").Show();
                         return;
                     }
-
-                    RegisteredEmployee.RegisterNewEmployee(potentialEmployees[0], DB_RequestEmployeesOwnedKeys(potentialEmployees[0]));
+                    else if(potentialEmployees.Count > 1)
+                    {
+                        DialogBoxFactory.GetInfoBox("Wykryto poważny błąd bazy Danych: Duplikacja numeru identyfikacyjnego pracownika. Skontaktuj się ze swoim Administratorem.").Show();
+                        return;
+                    }
+                    else
+                    {
+                        RegisteredEmployee.RegisterNewEmployee(potentialEmployees[0], DB_RequestEmployeesOwnedKeys(potentialEmployees[0]));
+                    }
                     break;
             }
 
@@ -149,7 +156,7 @@ namespace KeyKeeper.Tabs.CareTaker
             }
             else
             {
-                DialogBoxFactory.GetInfoBox("Wykryto poważny błąd bazy Danych:\nDuplikacja numeru identyfikacyjnego klucza.\nSkontaktuj się ze swoim Administratorem.").Show();
+                DialogBoxFactory.GetInfoBox("Wykryto poważny błąd bazy Danych: Duplikacja numeru identyfikacyjnego klucza. Skontaktuj się ze swoim Administratorem.").Show();
                 return;
             }
             RegisteredEmployee.RefreshHeldKeys(DB_RequestEmployeesOwnedKeys(RegisteredEmployee.GetRegisteredEmployee()));
@@ -182,6 +189,7 @@ namespace KeyKeeper.Tabs.CareTaker
 
             dialogFactory.HeaderMessage = "Proszę podać Imię i Nazwisko:";
             dialogFactory.RequestedParameters = new List<string>() { "Imię", "Nazwisko" };
+            dialogFactory.DefaultValuesForRequestedParameters = new List<string>();
             dialogFactory.CorrespondingRules = new List<ValidationRules>();
 
             dialogBox = dialogFactory.GetRequestDialogBox();
@@ -202,6 +210,7 @@ namespace KeyKeeper.Tabs.CareTaker
 
             dialogFactory.HeaderMessage = message;
             dialogFactory.RequestedParameters = new List<string>() { "Numer Identyfikacyjny" };
+            dialogFactory.DefaultValuesForRequestedParameters = new List<string>();
             dialogFactory.CorrespondingRules = new List<ValidationRules> { ValidationRules.StringTyped4DigitCode };
 
             dialogBox = dialogFactory.GetRequestDialogBox();
