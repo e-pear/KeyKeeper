@@ -139,7 +139,7 @@ namespace KeyKeeper.Tabs.CareTaker
             }
             else if(searchedKey.AssignedEmployee_Id != null) // Triggers when user provided id of key which was already handovered.
             {
-                DialogBoxFactory.GetInfoBox("Klucz został wydany innemu pracownikowi.").Show();
+                DialogBoxFactory.GetInfoBox("Klucz został już wydany innemu pracownikowi.").Show();
                 return;
             }
             else // Triggers when user provided correct key id and key was found on gatehouse.
